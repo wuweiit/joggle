@@ -134,7 +134,14 @@
 
 
     <select id="selectAllFlowTrendHourStream" fetchSize="1000" resultSetType="FORWARD_ONLY"  resultType="com.wuweibi.bullet.metrics.entity.DataMetricsHour">
-        select * from data_metrics_hour where create_date between #{startDate} and #{endDate}
-        ORDER BY create_date desc
+        select a.create_date, dmh.* from
+            (SELECT
+                date(@date := DATE_ADD( @date, INTERVAL - 1 DAY )) create_date
+            FROM
+                ( SELECT @date := DATE_ADD( #{endDate}, INTERVAL + 1 DAY ) FROM data_metrics_day ) days
+            LIMIT 2) a
+        left join data_metrics_hour dmh on dmh.create_date = a.create_date
+         where a.create_date >= #{startDate} and  #{endDate} >= a.create_date
+        ORDER BY a.create_date desc
     </select>
 </mapper>

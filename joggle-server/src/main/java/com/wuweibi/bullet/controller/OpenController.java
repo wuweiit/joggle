@@ -10,6 +10,7 @@ import com.wuweibi.bullet.config.swagger.annotation.WebApi;
 import com.wuweibi.bullet.conn.WebsocketPool;
 import com.wuweibi.bullet.controller.validator.LoginParamValidator;
 import com.wuweibi.bullet.controller.validator.RegisterValidator;
+import com.wuweibi.bullet.dashboard.domain.DeviceDateItemHourVO;
 import com.wuweibi.bullet.dashboard.domain.DeviceDateItemVO;
 import com.wuweibi.bullet.device.entity.Device;
 import com.wuweibi.bullet.domain.domain.session.Session;
@@ -358,10 +359,10 @@ public class OpenController {
      */
     @ApiOperation("近30日流量情况")
     @GetMapping("/all/flow/trend/hour")
-    public R<List<DeviceDateItemVO>> getHourFlowTrend(
+    public R<List<DeviceDateItemHourVO>> getHourFlowTrend(
             @JwtUser Session session){
         int hour = 24;
-        List<DeviceDateItemVO> list = countService.getAllFlowTrendHour(hour);
+        List<DeviceDateItemHourVO> list = countService.getAllFlowTrendHour(hour);
         return R.success(list);
     }
 

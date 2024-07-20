@@ -22,4 +22,5 @@ public class DeviceDateItemVO {
 
     @ApiModelProperty("链接数量")
     private BigDecimal link = BigDecimal.ZERO;
+
 }

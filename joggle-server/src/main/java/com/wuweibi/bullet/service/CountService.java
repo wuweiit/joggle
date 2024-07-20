@@ -1,9 +1,6 @@
 package com.wuweibi.bullet.service;
 
-import com.wuweibi.bullet.dashboard.domain.DeviceCountInfoVO;
-import com.wuweibi.bullet.dashboard.domain.DeviceDateItemVO;
-import com.wuweibi.bullet.dashboard.domain.UserCountVO;
-import com.wuweibi.bullet.dashboard.domain.UserTodayFlowCountVO;
+import com.wuweibi.bullet.dashboard.domain.*;
 import com.wuweibi.bullet.domain.vo.CountVO;
 
 import java.util.List;
@@ -63,5 +60,5 @@ public interface CountService {
      * @param hour
      * @return
      */
-    List<DeviceDateItemVO> getAllFlowTrendHour(int hour);
+    List<DeviceDateItemHourVO> getAllFlowTrendHour(int hour);
 }
