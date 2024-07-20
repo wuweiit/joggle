@@ -20,5 +20,5 @@ public interface DataMetricsHourMapper extends BaseMapper<DataMetricsHour> {
      * @param mappingId 映射id
      * @return
      */
-    DataMetricsHour selectByMappingDate(@Param("date") Date date, Long mappingId);
+    DataMetricsHour selectByMappingDate(@Param("date") Date date,@Param("mappingId") Long mappingId);
 }
