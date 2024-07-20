@@ -253,6 +253,9 @@ public class OpenController {
     @ApiOperation(value = "设备检查更新接口",notes = "支持多个类型检查更新 CLIENT SERVER")
     @PostMapping(value = "/checkUpdate")
     public ReleaseDetail checkUpdate(@RequestBody ClientInfoDTO clientInfoDTO) {
+        if ("xxx".equals(clientInfoDTO.getApp_id())){ // 兼容老版本的joggle客户端检查更新
+            clientInfoDTO.setApp_id("CLIENT");
+        }
         ClientVersion clientVersion = clientVersionService.getNewVersion(clientInfoDTO);
         if (Objects.isNull(clientVersion)) {
             return new ReleaseDetail();
