@@ -1,9 +1,11 @@
 package com.wuweibi.bullet.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wuweibi.bullet.dashboard.domain.DeviceCountInfoVO;
 import com.wuweibi.bullet.dashboard.domain.DeviceDateItemVO;
 import com.wuweibi.bullet.dashboard.domain.UserFlowCountDTO;
 import com.wuweibi.bullet.domain.vo.CountVO;
+import com.wuweibi.bullet.metrics.entity.DataMetricsHour;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -16,7 +18,7 @@ import java.util.List;
  * @author marker
  * @since 2017-12-09
  */
-public interface CountMapper {
+public interface CountMapper extends BaseMapper {
 
 
     /**
@@ -49,4 +51,6 @@ public interface CountMapper {
     List<DeviceDateItemVO> selectUserDeviceTrend(@Param("userId")Long userId, @Param("deviceId")Long deviceId);
 
     List<DeviceDateItemVO> selectAllFlowTrend(@Param("day") int day);
+
+    List<DataMetricsHour> selectAllFlowTrendHourStream(String startDate, String endDate);
 }

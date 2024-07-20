@@ -352,6 +352,19 @@ public class OpenController {
         return R.success(list);
     }
 
+    /**
+     * 近24小时流量情况
+     * @return
+     */
+    @ApiOperation("近30日流量情况")
+    @GetMapping("/all/flow/trend/hour")
+    public R<List<DeviceDateItemVO>> getHourFlowTrend(
+            @JwtUser Session session){
+        int hour = 24;
+        List<DeviceDateItemVO> list = countService.getAllFlowTrendHour(hour);
+        return R.success(list);
+    }
+
 
     /**
      * 初始化数据

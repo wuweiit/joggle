@@ -24,6 +24,8 @@ public interface CacheBlock {
 	 * 设备详情缓存
 	 */
 	String  CACHE_DEVICE_DETAIL = "deviceDetail";
+	String  CACHE_HOME_TREND_HOUR = "cacheHomeTrendHour";
+	String  CACHE_HOME_TREND = "cacheHomeTrend";
 
 	
 	

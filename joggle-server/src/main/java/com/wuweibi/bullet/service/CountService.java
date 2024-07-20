@@ -57,4 +57,11 @@ public interface CountService {
      * @return
      */
     UserTodayFlowCountVO getUserTodayFow(Long userId, Long deviceId);
+
+    /**
+     * 全网近24小时流量
+     * @param hour
+     * @return
+     */
+    List<DeviceDateItemVO> getAllFlowTrendHour(int hour);
 }

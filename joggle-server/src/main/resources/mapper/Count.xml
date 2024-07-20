@@ -130,4 +130,11 @@
         GROUP BY a.create_date
         ORDER BY a.create_date asc
     </select>
+
+
+
+    <select id="selectAllFlowTrendHourStream" fetchSize="1000" resultSetType="FORWARD_ONLY"  resultType="com.wuweibi.bullet.metrics.entity.DataMetricsHour">
+        select * from data_metrics_hour where create_date between #{startDate} and #{endDate}
+        ORDER BY create_date desc
+    </select>
 </mapper>
