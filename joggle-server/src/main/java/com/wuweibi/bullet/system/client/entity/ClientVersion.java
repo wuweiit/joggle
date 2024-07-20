@@ -34,6 +34,13 @@ public class ClientVersion implements Serializable {
     private Integer id;
 
     /**
+     * 类型 ：
+     * CLIENT  客户端程序
+     * SERVER  服务端程序
+     */
+    private String type;
+
+    /**
      * 版本号
      */
     @TableField("version")

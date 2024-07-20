@@ -246,15 +246,17 @@ public class OpenController {
 
 
     /**
-     * 检查客户端更新
+     * 设备检查更新接口
      *
      * @return
      */
-    @ApiOperation("客户端检查更新接口")
+    @ApiOperation(value = "设备检查更新接口",notes = "支持多个类型检查更新 CLIENT SERVER")
     @PostMapping(value = "/checkUpdate")
     public ReleaseDetail checkUpdate(@RequestBody ClientInfoDTO clientInfoDTO) {
-
         ClientVersion clientVersion = clientVersionService.getNewVersion(clientInfoDTO);
+        if (Objects.isNull(clientVersion)) {
+            return new ReleaseDetail();
+        }
 
         ReleaseDetail releaseDetail = new ReleaseDetail();
         ReleaseInfo releaseInfo = new ReleaseInfo();

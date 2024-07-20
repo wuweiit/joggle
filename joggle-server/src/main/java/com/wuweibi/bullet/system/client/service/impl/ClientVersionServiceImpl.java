@@ -30,6 +30,7 @@ public class ClientVersionServiceImpl extends ServiceImpl<ClientVersionMapper, C
     @Override
     public ClientVersion getNewVersion(ClientInfoDTO clientInfoDTO) {
         return this.baseMapper.selectOne(Wrappers.<ClientVersion>lambdaQuery()
+                .eq(ClientVersion::getType, clientInfoDTO.getApp_id())
                 .eq(ClientVersion::getStatus, 1)
                 .eq(ClientVersion::getOs, clientInfoDTO.getOs())
                 .eq(ClientVersion::getArch, clientInfoDTO.getArch())
