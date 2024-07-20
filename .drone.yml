@@ -77,7 +77,8 @@ steps:
     settings:
       host: joggle.cn
       username: root
-#      keyPath: /root/.ssh/id_rsa
+      key:
+        from_secret: ssh_rsa
       port: 22
       strip_components: 2
       target: /opt/data/joggle/prod/
