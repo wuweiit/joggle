@@ -69,8 +69,8 @@ steps:
   - name: scp to prod jar
     image: appleboy/drone-scp
     pull: if-not-exists # 如果镜像不存在则拉取,免去每次都要重新下载
-    environment:
-      SSH_KEY_PATH: /root/.ssh/id_rsa
+#    environment:
+#      SSH_KEY_PATH: /root/.ssh/id_rsa
     volumes:
       - name: ssh
         path: /root/.ssh
