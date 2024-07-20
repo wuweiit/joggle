@@ -44,19 +44,27 @@ public class ClientVersionServiceImpl extends ServiceImpl<ClientVersionMapper, C
 
     @Override
     public int updateChecksumByOsArch(String version, String os, String arch, String binFilePath, String checksum) {
+        String type = "CLIENT";
+        if (binFilePath.contains("ngrokd")){
+            type = "SERVER";
+        }
+
         ClientVersion clientVersion = this.baseMapper.selectOne(Wrappers.<ClientVersion>lambdaQuery()
                 .eq(ClientVersion::getOs, os)
-                .eq(ClientVersion::getArch, arch));
+                .eq(ClientVersion::getArch, arch)
+                .eq(ClientVersion::getType, type)
+                .eq(ClientVersion::getStatus, 1)
+        );
         if (clientVersion == null) return 0;
 
         // 生产环境才做URL更新
         String downloadURL = String.format("%s/client/%s/%s", aliOssProperties.getPublicServerUrl(), version, binFilePath);
         if (!SpringUtils.isProduction()) {
-            downloadURL = String.format("%s/client/%s/%s", "http://192.168.1.6:30974", version, binFilePath);
+            downloadURL = String.format("%s/client/%s/%s", "http://192.168.1.6:80", version, binFilePath);
         }
         clientVersion.setDownloadUrl(downloadURL);
         clientVersion.setChecksum(checksum);
-        clientVersion.setTitle(String.format("JoggleClient-v%s", version));
+        clientVersion.setTitle(String.format("joggle-%s-%s",type.toLowerCase(), version));
         clientVersion.setVersion(version);
         clientVersion.setStatus(true);
         clientVersion.setUpdateTime(new Date());
