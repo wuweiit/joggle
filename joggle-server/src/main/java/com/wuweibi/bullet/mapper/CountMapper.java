@@ -50,7 +50,20 @@ public interface CountMapper extends BaseMapper {
      */
     List<DeviceDateItemVO> selectUserDeviceTrend(@Param("userId")Long userId, @Param("deviceId")Long deviceId);
 
+
+    /**
+     * 获取最近day天的天级别数据
+     * @param day 天数
+     * @return
+     */
     List<DeviceDateItemVO> selectAllFlowTrend(@Param("day") int day);
 
-    List<DataMetricsHour> selectAllFlowTrendHourStream(String startDate, String endDate);
+
+    /**
+     * 获取指定时间段的小时级别数据
+     * @param startDate 开始时间 yyyy-MM-dd
+     * @param endDate 结束时间 yyyy-MM-dd
+     * @return
+     */
+    List<DataMetricsHour> selectAllFlowTrendHourStream(@Param("startDate") String startDate, @Param("endDate") String endDate);
 }
