@@ -22,7 +22,7 @@ pipeline {
                    sh '''
                        if [ "$BRANCH_NAME"  = "prod" ];then
                            echo "bullet-client uploading....."
-                           scp ./bullet-client/target/bullet-client.jar root@192.168.1.6:/opt/bullet/lib/bullet-client.jar
+                           #scp ./bullet-client/target/bullet-client.jar root@192.168.1.6:/opt/bullet/lib/bullet-client.jar
                            echo "systemctl restart bullet ...."
                            ssh root@192.168.1.6 "systemctl restart bullet"
                        fi
@@ -38,67 +38,67 @@ pipeline {
 
                             echo "从服务器下载linux Arm32版本的ngrok文件"
                             scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/linux_arm/ngrok ./bin/ngrok
-                            scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/linux_arm/service ./bin/service
-                            ssh -o StrictHostKeyChecking=no root@192.168.1.5 "cd $workdir && tar -zcvf bullet-client-linux_arm32.tar.gz --xform 's#^#bullet/#' *"
-                            scp -o StrictHostKeyChecking=no bullet-client-linux_arm32.tar.gz  root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/bullet/
-                            rm -rf bullet-client-linux_arm32.tar.gz
+                            #scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/linux_arm/service ./bin/service
+                            ssh -o StrictHostKeyChecking=no root@192.168.1.5 "cd $workdir && tar -zcvf joggle-client-linux_arm32.tar.gz --xform 's#^#bullet/#' *"
+                            scp -o StrictHostKeyChecking=no joggle-client-linux_arm32.tar.gz  root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/bullet/
+                            rm -rf joggle-client-linux_arm32.tar.gz
                             rm -rf bin/ngrok
                             rm -rf bin/service
 
                             echo "从服务器下载linux Arm64版本的ngrok文件"
                             scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/linux_arm64/ngrok ./bin/ngrok
-                            scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/linux_arm64/service ./bin/service
-                            ssh -o StrictHostKeyChecking=no root@192.168.1.5 "cd $workdir && tar -zcvf bullet-client-linux_arm64.tar.gz --xform 's#^#bullet/#' *"
-                            scp -o StrictHostKeyChecking=no bullet-client-linux_arm64.tar.gz  root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/bullet/
-                            rm -rf bullet-client-linux_arm64.tar.gz
+                            #scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/linux_arm64/service ./bin/service
+                            ssh -o StrictHostKeyChecking=no root@192.168.1.5 "cd $workdir && tar -zcvf joggle-client-linux_arm64.tar.gz --xform 's#^#bullet/#' *"
+                            scp -o StrictHostKeyChecking=no joggle-client-linux_arm64.tar.gz  root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/bullet/
+                            rm -rf joggle-client-linux_arm64.tar.gz
                             rm -rf bin/ngrok
                             rm -rf bin/service
 
 
                            echo "从服务器下载linux 32版本的ngrok文件"
                            scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/linux_386/ngrok ./bin/ngrok
-                           scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/linux_386/service ./bin/service
-                            ssh -o StrictHostKeyChecking=no root@192.168.1.5 "cd $workdir && tar -zcvf bullet-client-linux_386.tar.gz --xform 's#^#bullet/#' *"
-                           scp -o StrictHostKeyChecking=no bullet-client-linux_386.tar.gz  root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/bullet/
-                           rm -rf bullet-client-linux_386.tar.gz
+                           #scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/linux_386/service ./bin/service
+                           ssh -o StrictHostKeyChecking=no root@192.168.1.5 "cd $workdir && tar -zcvf joggle-client-linux_386.tar.gz --xform 's#^#bullet/#' *"
+                           scp -o StrictHostKeyChecking=no joggle-client-linux_386.tar.gz  root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/bullet/
+                           rm -rf joggle-client-linux_386.tar.gz
                            rm -rf bin/ngrok
                             rm -rf bin/service
 
                            echo "从服务器下载linux amd64版本的ngrok文件"
                            scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/linux_amd64/ngrok ./bin/ngrok
-                           scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/linux_amd64/service ./bin/service
-                            ssh -o StrictHostKeyChecking=no root@192.168.1.5 "cd $workdir && tar -zcvf bullet-client-linux_amd64.tar.gz --xform 's#^#bullet/#' *"
-                           scp -o StrictHostKeyChecking=no bullet-client-linux_amd64.tar.gz  root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/bullet/
-                           rm -rf bullet-client-linux_amd64.tar.gz
+                           #scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/linux_amd64/service ./bin/service
+                            ssh -o StrictHostKeyChecking=no root@192.168.1.5 "cd $workdir && tar -zcvf joggle-client-linux_amd64.tar.gz --xform 's#^#bullet/#' *"
+                           scp -o StrictHostKeyChecking=no joggle-client-linux_amd64.tar.gz  root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/bullet/
+                           rm -rf joggle-client-linux_amd64.tar.gz
                            rm -rf bin/ngrok
                             rm -rf bin/service
 
                            echo "从服务器下载Mac 64版本的ngrok文件"
-                           rm -rf bullet-client-darwin_amd64.tar.gz
+                           rm -rf joggle-client-darwin_amd64.tar.gz
                            scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/darwin_amd64/ngrok ./bin/ngrok
-                           scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/darwin_amd64/service ./bin/service
-                            ssh -o StrictHostKeyChecking=no root@192.168.1.5 "cd $workdir && tar -zcvf bullet-client-darwin_amd64.tar.gz --xform 's#^#bullet/#' *"
-                           scp -o StrictHostKeyChecking=no bullet-client-darwin_amd64.tar.gz  root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/bullet/
-                           rm -rf bullet-client-darwin_amd64.tar.gz
+                           #scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/darwin_amd64/service ./bin/service
+                            ssh -o StrictHostKeyChecking=no root@192.168.1.5 "cd $workdir && tar -zcvf joggle-client-darwin_amd64.tar.gz --xform 's#^#bullet/#' *"
+                           scp -o StrictHostKeyChecking=no joggle-client-darwin_amd64.tar.gz  root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/bullet/
+                           rm -rf joggle-client-darwin_amd64.tar.gz
                            rm -rf bin/ngrok
                             rm -rf bin/service
 
 
                            echo "从服务器下载Win 386版本的ngrokd文件"
                            scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/windows_386/ngrok.exe ./bin/ngrok.exe
-                           scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/windows_386/service.exe ./bin/service.exe
-                            ssh -o StrictHostKeyChecking=no root@192.168.1.5 "cd $workdir && tar -zcvf bullet-client-windows_386.tar.gz --xform 's#^#bullet/#' *"
-                           scp -o StrictHostKeyChecking=no bullet-client-windows_386.tar.gz  root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/bullet/
-                           rm -rf bullet-client-windows_386.tar.gz
+                           #scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/windows_386/service.exe ./bin/service.exe
+                            ssh -o StrictHostKeyChecking=no root@192.168.1.5 "cd $workdir && tar -zcvf joggle-client-windows_386.tar.gz --xform 's#^#bullet/#' *"
+                           scp -o StrictHostKeyChecking=no joggle-client-windows_386.tar.gz  root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/bullet/
+                           rm -rf joggle-client-windows_386.tar.gz
                            rm -rf bin/ngrok.exe
                            rm -rf bin/service.exe
 
                            echo "从服务器下载Win amd64版本的ngrokd文件"
                            scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/windows_amd64/ngrok.exe ./bin/ngrok.exe
-                           scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/windows_amd64/service.exe ./bin/service.exe
-                            ssh -o StrictHostKeyChecking=no root@192.168.1.5 "cd $workdir && tar -zcvf bullet-client-windows_amd64.tar.gz --xform 's#^#bullet/#' *"
-                           scp -o StrictHostKeyChecking=no bullet-client-windows_amd64.tar.gz  root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/bullet/
-                           rm -rf bullet-client-windows_amd64.tar.gz
+                           #scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/windows_amd64/service.exe ./bin/service.exe
+                            ssh -o StrictHostKeyChecking=no root@192.168.1.5 "cd $workdir && tar -zcvf joggle-client-windows_amd64.tar.gz --xform 's#^#bullet/#' *"
+                           scp -o StrictHostKeyChecking=no joggle-client-windows_amd64.tar.gz  root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/bullet/
+                           rm -rf joggle-client-windows_amd64.tar.gz
                            rm -rf bin/ngrok.exe
                            rm -rf bin/service.exe
 
