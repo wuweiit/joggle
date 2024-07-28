@@ -18,7 +18,11 @@ public class ServerTunnelAdminVO {
     private Integer broadband;
     //线路通道地址
     private String serverAddr;
-    //上线时间
+
+    @ApiModelProperty("通道版本号")
+    private String version;
+
+    @ApiModelProperty("通道上线时间")
     private Date createTime;
 
     // 价格类型 1免费 2包月 3包年

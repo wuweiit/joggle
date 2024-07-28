@@ -12,7 +12,7 @@
 
 	<select id="selectAdminPage" resultType="com.wuweibi.bullet.device.domain.vo.ServerTunnelAdminVO">
 		select `id`, `name`, `country`, `area`, `broadband`, `server_addr`, `create_time`,
-			   `price_type`, `sales_price`, `original_price`, `buy_status`, `status`,
+			   `price_type`, `sales_price`, `original_price`, `buy_status`, `status`, `version`,
 			   `server_end_time`, server_up_time, server_down_time
 		from t_server_tunnel
   		<where>
