@@ -67,5 +67,8 @@ public class ServerTunnel  {
 
     @ApiModelProperty("服务器离线时间")
     private Date serverDownTime;
+
+    @ApiModelProperty("通道版本")
+    private String version;
 }
 

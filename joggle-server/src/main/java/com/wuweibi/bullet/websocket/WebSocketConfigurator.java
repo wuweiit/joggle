@@ -14,11 +14,12 @@ public class WebSocketConfigurator extends ServerEndpointConfig.Configurator {
 
     @Override
     public void modifyHandshake(ServerEndpointConfig sec, HandshakeRequest request, HandshakeResponse response) {
-
         Map<String, Object> attributes = sec.getUserProperties();
         List<String> values = request.getHeaders().get(HttpHeaders.AUTHORIZATION);
+        List<String> versions = request.getHeaders().get("version");
 
-        attributes.put("authorization", null != values?values.get(0): "");
+        attributes.put(HttpHeaders.AUTHORIZATION, null != values?values.get(0): "");
+        attributes.put("version", null != versions?versions.get(0): "");
 //        if (session != null) {
 //            attributes.put(IP_ADDR, session.getAttribute("ip"));
 //            Enumeration<String> names = session.getAttributeNames();

@@ -38,11 +38,16 @@ public class ServerTunnelServiceImpl extends ServiceImpl<ServerTunnelMapper, Ser
     }
 
     @Override
-    public boolean updateStatus(Integer tunnelId, int status) {
+    public boolean updateStatus(Integer tunnelId, int status, String version) {
         LambdaUpdateWrapper<ServerTunnel> wp = Wrappers.<ServerTunnel>lambdaUpdate()
                 .eq(ServerTunnel::getId, tunnelId)
                 .set(ServerTunnel::getStatus, status)
                 .set(ServerTunnel::getServerUpTime, new Date());
+
+        if (Objects.nonNull(version)) {
+            wp.set(ServerTunnel::getVersion, version);
+        }
+
         if (status == 0) {// 离线
             wp.set(ServerTunnel::getServerDownTime, new Date());
         }

@@ -26,6 +26,7 @@ import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpHeaders;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
@@ -69,7 +70,6 @@ public class Bullet3Annotation {
     private String ip;
 
 
-    public Bullet3Annotation() {  }
 
 
 
@@ -85,7 +85,10 @@ public class Bullet3Annotation {
         this.session = session;
         this.tunnelId = tunnelId;
 
-        String authorization = (String) session.getUserProperties().get("authorization");
+//        String version = WebSocketUtil.getHeader( , "version");
+
+        String authorization = (String) session.getUserProperties().get(HttpHeaders.AUTHORIZATION);
+        String version = (String) session.getUserProperties().get("version");
         ServerTunnelService serverTunnelService = SpringUtils.getBean(ServerTunnelService.class);
 
         ServerTunnel serverTunnel = serverTunnelService.getById(tunnelId);
@@ -104,7 +107,7 @@ public class Bullet3Annotation {
         pool.addConnection(this);
 
         // 更新服务通道 在线状态
-        serverTunnelService.updateStatus(tunnelId, 1);
+        serverTunnelService.updateStatus(tunnelId, 1, version);
         log.info("websocket[{}] online", tunnelId);
     }
 
@@ -117,7 +120,7 @@ public class Bullet3Annotation {
         if (closeReason.getCloseCode().getCode() == 1001) { // 应用停止时主动关闭
             return;
         }
-        serverTunnelService.updateStatus(tunnelId, 0);
+        serverTunnelService.updateStatus(tunnelId, 0, null);
     }
 
 
@@ -274,7 +277,7 @@ public class Bullet3Annotation {
 
 
         ServerTunnelService serverTunnelService = SpringUtils.getBean(ServerTunnelService.class);
-        serverTunnelService.updateStatus(tunnelId, 0);
+        serverTunnelService.updateStatus(tunnelId, 0, null);
     }
 
 
