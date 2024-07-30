@@ -33,11 +33,15 @@
 			 su.`id`, su.`username`, su.`email`, su.`nickname`,  su.`agree`, su.`icon`, su.`loginTime`,
 		       su.`balance`, su.`enabled`, su.`account_non_expired`, su.`credentials_non_expired`,
 		       su.`account_non_locked`, su.`created_time`, su.`updated_time`, su.`created_by`,
-		       su.`updated_by`, su.`activate_code`, su.`user_admin`, su.`user_certification`
+		       su.`updated_by`, su.`activate_code`, su.`user_admin`, su.`user_certification`, up.name userPackageName
 		from `t_sys_users` su
+		left join user_package up on up.user_id = su.id
 		<where>
 			<if test="params.enabled != null ">
 				and su.enabled = #{params.enabled}
+			</if>
+			<if test="params.packageId != null ">
+				and up.resource_package_id = #{params.packageId}
 			</if>
 			<if test="params.username != null and params.username != ''">
 				and (

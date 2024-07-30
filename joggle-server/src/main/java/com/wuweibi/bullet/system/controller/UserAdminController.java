@@ -8,6 +8,7 @@ import com.wuweibi.bullet.annotation.JwtUser;
 import com.wuweibi.bullet.annotation.ResponseMessage;
 import com.wuweibi.bullet.common.domain.PageParam;
 import com.wuweibi.bullet.config.properties.JoggleProperties;
+import com.wuweibi.bullet.config.swagger.annotation.AdminApi;
 import com.wuweibi.bullet.conn.WebsocketPool;
 import com.wuweibi.bullet.domain.domain.session.Session;
 import com.wuweibi.bullet.domain.message.FormFieldMessage;
@@ -18,6 +19,8 @@ import com.wuweibi.bullet.exception.type.SystemErrorType;
 import com.wuweibi.bullet.flow.entity.UserFlow;
 import com.wuweibi.bullet.flow.service.UserFlowService;
 import com.wuweibi.bullet.oauth2.service.AuthenticationService;
+import com.wuweibi.bullet.res.entity.UserPackage;
+import com.wuweibi.bullet.res.service.UserPackageService;
 import com.wuweibi.bullet.service.UserForgetService;
 import com.wuweibi.bullet.service.UserService;
 import com.wuweibi.bullet.system.domain.UserPassForgetApplyDTO;
@@ -29,6 +32,7 @@ import com.wuweibi.bullet.utils.HttpUtils;
 import com.wuweibi.bullet.utils.SpringUtils;
 import com.wuweibi.bullet.utils.StringUtil;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -42,13 +46,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 
 /**
- *
  * @author marker
  * @version 1.0
  */
+@AdminApi
+@Slf4j
 @RestController
 @RequestMapping("/admin/user")
 public class UserAdminController {
@@ -59,6 +65,8 @@ public class UserAdminController {
     @Resource
     private WebsocketPool websocketPool;
 
+    @Resource
+    private UserPackageService userPackageService;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -70,7 +78,6 @@ public class UserAdminController {
 
     @Resource
     private UserFlowService userFlowService;
-
 
 
     /**
@@ -92,20 +99,20 @@ public class UserAdminController {
     @GetMapping("/detail")
     public R<UserAdminDetailVO> userDetail(@RequestParam Long userId) {
         User user = this.userService.getById(userId);
-        if(user == null){
-            return R.fail("数据不存在");
+        if (Objects.isNull(user)) {
+            return R.fail("用户不存在");
         }
-
+        UserPackage userPackage = this.userPackageService.getById(userId);
+        if (Objects.isNull(userPackage)) {
+            log.error("用户套餐数据不存在 userId={}", userId);
+            return R.fail("用户套餐不存在");
+        }
         UserAdminDetailVO userAdminDetailVO = new UserAdminDetailVO();
         BeanUtils.copyProperties(user, userAdminDetailVO);
-        userAdminDetailVO.setEnabled(user.isEnabled()?1:0);
+        userAdminDetailVO.setEnabled(user.isEnabled() ? 1 : 0);
+        userAdminDetailVO.setUserPackageName(userPackage.getName());
         return R.ok(userAdminDetailVO);
     }
-
-
-
-
-
 
 
     /**
@@ -133,12 +140,11 @@ public class UserAdminController {
 
         result.put("loginTime", sdf.format(user.getLoginTime()));
         result.put("balance", StringUtil.roundHalfUp(user.getBalance()));
-        result.put("userFlow", userFlow.getFlow()/1024); //MB
+        result.put("userFlow", userFlow.getFlow() / 1024); //MB
 
 
         return R.success(result);
     }
-
 
 
     @Resource()
@@ -189,10 +195,10 @@ public class UserAdminController {
      *
      * @return
      */
-    @ApiOperation(value = "重置密码",notes = "重置密码将收到修改密码的邮件")
+    @ApiOperation(value = "重置密码", notes = "重置密码将收到修改密码的邮件")
     @PostMapping(value = "/password/reset")
     public R forget(@RequestBody UserPassForgetApplyDTO dto,
-                                HttpServletRequest request) {
+                    HttpServletRequest request) {
         String email = dto.getEmail();
         // 验证邮箱正确性
         if (email.indexOf("@") == -1 && !SpringUtils.emailFormat(email)) {// 邮箱格式不正确
@@ -201,15 +207,15 @@ public class UserAdminController {
             ffm.setStatus(State.RegEmailError);
             return R.fail(ffm);
         }
-        String ip  = HttpUtils.getRemoteHost(request);
+        String ip = HttpUtils.getRemoteHost(request);
         String url = joggleProperties.getServerUrl();
 
         // 验证最近5分钟是否申请过
         boolean applyStatus = userForgetService.checkApply(email, 5 * 60);
-        if(applyStatus){
+        if (applyStatus) {
             return R.fail("最近申请过忘记密码，请查收等待一段时间再次操作");
         }
-         userService.applyChangePass(email, url, ip);
+        userService.applyChangePass(email, url, ip);
         return R.ok();
     }
 

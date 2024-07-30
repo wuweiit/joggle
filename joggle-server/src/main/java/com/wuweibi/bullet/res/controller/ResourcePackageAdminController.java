@@ -5,8 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wuweibi.bullet.common.domain.IdDTO;
 import com.wuweibi.bullet.common.domain.PageParam;
 import com.wuweibi.bullet.entity.api.R;
-import com.wuweibi.bullet.res.domain.ResourcePackageDTO;
+import com.wuweibi.bullet.res.domain.PackageOptionVO;
 import com.wuweibi.bullet.res.domain.ResourcePackageAdminParam;
+import com.wuweibi.bullet.res.domain.ResourcePackageDTO;
 import com.wuweibi.bullet.res.domain.ResourcePackageVO;
 import com.wuweibi.bullet.res.entity.ResourcePackage;
 import com.wuweibi.bullet.res.service.ResourcePackageService;
@@ -21,6 +22,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * (ResourcePackage)表控制层
@@ -46,10 +48,16 @@ public class ResourcePackageAdminController {
      * @param params 查询实体
      * @return 所有数据
      */
-    @ApiOperation("分页查询")
+    @ApiOperation("套餐分页查询")
     @GetMapping("/list")
     public R<Page<ResourcePackageVO>> getPageList(PageParam page, ResourcePackageAdminParam params) {
         return R.ok(this.resourcePackageService.getAdminList(page.toMybatisPlusPage(), params));
+    }
+
+    @ApiOperation("套餐下拉选项")
+    @GetMapping("/options")
+    public R<List<PackageOptionVO>> getOptionList( ) {
+        return R.ok(this.resourcePackageService.getOptionList());
     }
 
     /**

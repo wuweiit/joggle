@@ -2,11 +2,10 @@ package com.wuweibi.bullet.res.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wuweibi.bullet.res.domain.ResourcePackageAdminParam;
-import com.wuweibi.bullet.res.domain.ResourcePackageListVO;
-import com.wuweibi.bullet.res.domain.ResourcePackageParam;
-import com.wuweibi.bullet.res.domain.ResourcePackageVO;
+import com.wuweibi.bullet.res.domain.*;
 import com.wuweibi.bullet.res.entity.ResourcePackage;
+
+import java.util.List;
 
 /**
  * (ResourcePackage)表服务接口
@@ -32,4 +31,11 @@ public interface ResourcePackageService extends IService<ResourcePackage> {
     Page<ResourcePackageListVO>  getList(Page toMybatisPlusPage, ResourcePackageParam params);
 
     ResourcePackage getByLevel(int level);
+
+    /**
+     * 获取套餐下拉选项
+     * @return
+     */
+    List<PackageOptionVO> getOptionList();
+
 }

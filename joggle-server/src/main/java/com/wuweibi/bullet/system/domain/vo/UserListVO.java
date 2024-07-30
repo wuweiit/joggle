@@ -67,6 +67,9 @@ public class UserListVO {
 
 	private Integer userCertification;
 
+	@ApiModelProperty("用户套餐名称")
+	private String userPackageName;
+
 
 
 

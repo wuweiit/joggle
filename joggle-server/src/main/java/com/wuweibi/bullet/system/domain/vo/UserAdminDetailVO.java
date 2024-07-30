@@ -62,7 +62,12 @@ public class UserAdminDetailVO {
 	private String activateCode;
 
 
+	@ApiModelProperty("用户认证状态")
 	private Integer userCertification;
+
+
+	@ApiModelProperty("用户套餐名称")
+	private String userPackageName;
 
 
 

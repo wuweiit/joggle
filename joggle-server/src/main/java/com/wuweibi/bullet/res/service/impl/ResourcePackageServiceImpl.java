@@ -4,16 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.wuweibi.bullet.res.domain.ResourcePackageAdminParam;
-import com.wuweibi.bullet.res.domain.ResourcePackageListVO;
-import com.wuweibi.bullet.res.domain.ResourcePackageParam;
-import com.wuweibi.bullet.res.domain.ResourcePackageVO;
+import com.wuweibi.bullet.res.domain.*;
 import com.wuweibi.bullet.res.entity.ResourcePackage;
 import com.wuweibi.bullet.res.mapper.ResourcePackageMapper;
 import com.wuweibi.bullet.res.service.ResourcePackageService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -56,5 +54,15 @@ public class ResourcePackageServiceImpl extends ServiceImpl<ResourcePackageMappe
         return this.baseMapper.selectOne(Wrappers.<ResourcePackage>lambdaQuery()
                 .eq(ResourcePackage::getLevel, level)
                 .eq(ResourcePackage::getStatus, 1));
+    }
+
+    @Override
+    public List<PackageOptionVO> getOptionList() {
+        List<ResourcePackage> list = this.list();
+        return list.stream()
+                .map(item -> {
+                    return new PackageOptionVO(item.getId(), item.getName(), item.getName());
+                })
+                .collect(Collectors.toList());
     }
 }
