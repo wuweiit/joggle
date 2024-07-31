@@ -82,7 +82,7 @@ public class OrdersOpenController {
      * @return
      */
     @GetMapping(value = "/alipay")
-    public void create(OrdersPayDTO ordersPayDTO, HttpServletResponse response) throws Exception {
+    public void orderForAlipay(OrdersPayDTO ordersPayDTO, HttpServletResponse response) throws Exception {
         Orders orders = ordersService.getById(ordersPayDTO.getOrderId());
         if (orders == null) {
             return;

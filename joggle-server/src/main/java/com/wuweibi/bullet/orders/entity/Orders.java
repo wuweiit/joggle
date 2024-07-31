@@ -60,6 +60,8 @@ public class Orders extends Model<Orders> {
     private Date createTime;
     //更新时间
     private Date updateTime;
+    // 用户下单ip
+    private String userIP;
 
 }
 

@@ -50,17 +50,23 @@ public class OrdersDetailAdminVO {
     @ApiModelProperty("订单状态名称")
     private String statusName;
 
-    //三方交易号
+    //
+    @ApiModelProperty("三方交易号")
     private String tradeNo;
-    //支付时间
+    //
+    @ApiModelProperty("支付时间")
     private Date payTime;
-    //退款时间
+    //
+    @ApiModelProperty("退款时间")
     private Date refundTime;
-    //取消时间
+    //
+    @ApiModelProperty("取消时间")
     private Date cancelTime;
-    //创建时间
+
+    @ApiModelProperty("创建时间")
     private Date createTime;
-    //更新时间
+
+    @ApiModelProperty("更新时间")
     private Date updateTime;
 
     /**
@@ -71,6 +77,9 @@ public class OrdersDetailAdminVO {
 
     @ApiModelProperty("购买用户Email")
     private String buyerEmail;
+
+    @ApiModelProperty("用户下单ip")
+    private String userIP;
 
 }
 

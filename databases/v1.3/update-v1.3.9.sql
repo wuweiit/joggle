@@ -13,3 +13,6 @@ ALTER TABLE `t_server_tunnel`
 
 ALTER TABLE `user_package`
     ADD INDEX `idx_packageId`(`resource_package_id`);
+
+ALTER TABLE `orders`
+    ADD COLUMN `user_ip` varchar(64) NULL COMMENT '用户下单IP' AFTER `update_time`;

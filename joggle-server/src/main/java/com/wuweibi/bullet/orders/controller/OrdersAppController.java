@@ -11,8 +11,8 @@ import com.wuweibi.bullet.business.OrderPayBiz;
 import com.wuweibi.bullet.business.domain.OrderPayInfo;
 import com.wuweibi.bullet.config.swagger.annotation.WebApi;
 import com.wuweibi.bullet.domain.domain.session.Session;
-import com.wuweibi.bullet.domain2.enums.DomainStatusEnum;
 import com.wuweibi.bullet.domain2.entity.Domain;
+import com.wuweibi.bullet.domain2.enums.DomainStatusEnum;
 import com.wuweibi.bullet.entity.api.R;
 import com.wuweibi.bullet.exception.BaseException;
 import com.wuweibi.bullet.exception.type.SystemErrorType;
@@ -27,6 +27,7 @@ import com.wuweibi.bullet.orders.enums.PayTypeEnum;
 import com.wuweibi.bullet.orders.service.OrdersService;
 import com.wuweibi.bullet.service.DomainService;
 import com.wuweibi.bullet.utils.CodeHelper;
+import com.wuweibi.bullet.utils.HttpUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -102,7 +104,7 @@ public class OrdersAppController {
     @ApiOperation("下单接口")
     @PostMapping(value = "/create")
     @Transactional
-    public R create(@JwtUser Session session, @RequestBody @Valid OrdersDTO ordersDTO) throws Exception {
+    public R createOrder(@JwtUser Session session, HttpServletRequest request, @RequestBody @Valid OrdersDTO ordersDTO) throws Exception {
         Long userId = session.getUserId();
         ordersDTO.setUserId(userId);
         // 校验数据
@@ -137,6 +139,7 @@ public class OrdersAppController {
         orders.setUpdateTime(orders.getCreateTime());
         orders.setRefundAmount(0l);
         orders.setRefundMoney(BigDecimal.ZERO);
+        orders.setUserIP(HttpUtils.getRemoteIP(request));
 
         ordersService.save(orders);
 
