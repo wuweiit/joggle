@@ -139,7 +139,7 @@ public class OrdersAppController {
         orders.setUpdateTime(orders.getCreateTime());
         orders.setRefundAmount(0l);
         orders.setRefundMoney(BigDecimal.ZERO);
-        orders.setUserIP(HttpUtils.getRemoteIP(request));
+        orders.setUserIp(HttpUtils.getRemoteIP(request));
 
         ordersService.save(orders);
 

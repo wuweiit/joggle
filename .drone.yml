@@ -28,7 +28,7 @@ steps:
         - release
 
   - name: build
-    image: maven:3.8.6-jdk-8-slim
+    image: nas.mrcms.cn:8082/maven:3.8.6-jdk-8-slim
     pull: if-not-exists # 如果镜像不存在则拉取,免去每次都要重新下载
     volumes:
       - name: mavenRep
@@ -46,7 +46,7 @@ steps:
       - release
 
   - name: scp to ${DRONE_BRANCH}
-    image: appleboy/drone-scp
+    image: nas.mrcms.cn:8082/appleboy/drone-scp
     pull: if-not-exists # 如果镜像不存在则拉取,免去每次都要重新下载
 #    environment:
 #      SSH_KEY_PATH: /root/.ssh/id_rsa
@@ -66,8 +66,27 @@ steps:
       branch:
         - test
 
+  - name: scp to baota
+    image: nas.mrcms.cn:8082/appleboy/drone-scp
+    pull: if-not-exists # 如果镜像不存在则拉取,免去每次都要重新下载
+    volumes:
+      - name: ssh
+        path: /root/.ssh
+    settings:
+      host: 192.168.1.6
+      username: root
+      key:
+        from_secret: ssh_rsa
+      port: 22
+      strip_components: 2
+      target: /opt/baota/www/wwwroot/open.joggle.cn/
+      source: joggle-server/target/app.jar
+    when:
+      branch:
+        - test
+
   - name: scp to prod jar
-    image: appleboy/drone-scp
+    image: nas.mrcms.cn:8082/appleboy/drone-scp
     pull: if-not-exists # 如果镜像不存在则拉取,免去每次都要重新下载
 #    environment:
 #      SSH_KEY_PATH: /root/.ssh/id_rsa
