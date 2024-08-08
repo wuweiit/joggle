@@ -212,6 +212,10 @@ public class DataMetricsServiceImpl extends ServiceImpl<DataMetricsMapper, DataM
         entrySet.forEach(entry->{
             Long mappingId = Long.valueOf((String) entry.getKey());
             DeviceMapping deviceMapping = deviceMappingMapper.selectById(mappingId);
+            if (Objects.isNull(deviceMapping)) {
+                log.warn("mapping not found lose data:{}", JSON.toJSONString(dataMetrics));
+                return;
+            }
 
             DataMetricsHour dataMetricsHour = new DataMetricsHour();
             dataMetricsHour.setUserId(deviceMapping.getUserId());

@@ -20,15 +20,6 @@ pipeline {
 
                    echo "bullet-client deploying...."
                    sh '''
-                       if [ "$BRANCH_NAME"  = "prod" ];then
-                           echo "bullet-client uploading....."
-                           #scp ./bullet-client/target/bullet-client.jar root@192.168.1.6:/opt/bullet/lib/bullet-client.jar
-                           echo "systemctl restart bullet ...."
-                           ssh root@192.168.1.6 "systemctl restart bullet"
-                       fi
-
-
-
                        if [ "$BRANCH_NAME"  = "build" ];then
 
                             cd ./build/client/
@@ -38,7 +29,6 @@ pipeline {
 
                             echo "从服务器下载linux Arm32版本的ngrok文件"
                             scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/linux_arm/ngrok ./bin/ngrok
-                            #scp -o StrictHostKeyChecking=no root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/ngrok/linux_arm/service ./bin/service
                             ssh -o StrictHostKeyChecking=no root@192.168.1.5 "cd $workdir && tar -zcvf joggle-client-linux_arm32.tar.gz --xform 's#^#bullet/#' *"
                             scp -o StrictHostKeyChecking=no joggle-client-linux_arm32.tar.gz  root@192.168.1.6:/opt/baota/docker-baota/www/wwwroot/open.joggle.cn/bullet/
                             rm -rf joggle-client-linux_arm32.tar.gz

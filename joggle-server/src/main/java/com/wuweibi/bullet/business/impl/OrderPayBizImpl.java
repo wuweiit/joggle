@@ -26,6 +26,7 @@ import com.wuweibi.bullet.res.manager.UserPackageManager;
 import com.wuweibi.bullet.res.service.ResourcePackageService;
 import com.wuweibi.bullet.res.service.UserPackageRightsService;
 import com.wuweibi.bullet.res.service.UserPackageService;
+import com.wuweibi.bullet.service.DeviceMappingService;
 import com.wuweibi.bullet.service.DomainService;
 import com.wuweibi.bullet.service.UserService;
 import com.wuweibi.bullet.utils.SpringUtils;
@@ -249,6 +250,9 @@ public class OrderPayBizImpl implements OrderPayBiz {
      */
     @Transactional
     public boolean aliPayNotify(Map<String, Object> params) {
+
+        // TODO 加锁，事务控制
+
         // 成功
         String outTradeNo = (String) params.get("out_trade_no");
         String tradeNo = (String) params.get("trade_no");
@@ -290,6 +294,7 @@ public class OrderPayBizImpl implements OrderPayBiz {
                 }
 
                 domainService.updateDueTime(orders.getDomainId(), packageEndTime.getTime());
+
                 break;
             case 3: // 流量
                 long flow = orders.getAmount() * 1024 * 1024;
@@ -314,6 +319,8 @@ public class OrderPayBizImpl implements OrderPayBiz {
         return true;
     }
 
+    @Resource
+    private DeviceMappingService deviceMappingService;
 
     @Resource
     private UserPackageManager userPackageManager;
@@ -325,7 +332,7 @@ public class OrderPayBizImpl implements OrderPayBiz {
     @Override
     @Transactional
     public R balancePay(Long userId, BigDecimal payMoney, String orderNo) {
-        if(payMoney == null){
+        if (payMoney == null) {
             return R.fail(SystemErrorType.PAY_MONEY_NOT_NULL);
         }
 
