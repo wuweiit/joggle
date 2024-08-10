@@ -28,5 +28,18 @@
         order by id asc
     </select>
 
+<!--    获取最大版本号-->
+    <select id="selectMaxVersion" resultType="com.wuweibi.bullet.system.client.domain.NgrokVersionVO">
+        select
+            ifnull(max(case when A.type = 'CLIENT' then A.version end ),'') as clientVersion,
+            ifnull(max(case when A.type = 'SERVER' then A.version end ),'') as serverVersion
+        from (select type , version
+              from client_version
+              where status = 1 and os = 'linux' and arch = 'amd64'
+              order by id desc
+              limit 100
+             )	A
+    </select>
+
 </mapper>
 

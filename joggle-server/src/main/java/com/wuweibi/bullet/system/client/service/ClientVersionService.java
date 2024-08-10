@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wuweibi.bullet.domain.dto.ClientInfoDTO;
 import com.wuweibi.bullet.system.client.domain.ClientVersionAdminListVO;
+import com.wuweibi.bullet.system.client.domain.NgrokVersionVO;
 import com.wuweibi.bullet.system.client.entity.ClientVersion;
 import com.wuweibi.bullet.system.domain.dto.ClientVersionParam;
 
@@ -40,7 +41,7 @@ public interface ClientVersionService extends IService<ClientVersion> {
      * 获取最大版本
      * @return
      */
-    String getMaxVersion();
+    NgrokVersionVO getMaxVersion();
 
     /**
      * 分页查询客户端

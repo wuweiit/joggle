@@ -3,14 +3,17 @@ package com.wuweibi.bullet.system.client.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wuweibi.bullet.alias.CacheBlock;
 import com.wuweibi.bullet.config.properties.AliOssProperties;
 import com.wuweibi.bullet.domain.dto.ClientInfoDTO;
 import com.wuweibi.bullet.system.client.domain.ClientVersionAdminListVO;
+import com.wuweibi.bullet.system.client.domain.NgrokVersionVO;
 import com.wuweibi.bullet.system.client.entity.ClientVersion;
 import com.wuweibi.bullet.system.client.mapper.ClientVersionMapper;
 import com.wuweibi.bullet.system.client.service.ClientVersionService;
 import com.wuweibi.bullet.system.domain.dto.ClientVersionParam;
 import com.wuweibi.bullet.utils.SpringUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -45,7 +48,7 @@ public class ClientVersionServiceImpl extends ServiceImpl<ClientVersionMapper, C
     @Override
     public int updateChecksumByOsArch(String version, String os, String arch, String binFilePath, String checksum) {
         String type = "CLIENT";
-        if (binFilePath.contains("ngrokd")){
+        if (binFilePath.contains("ngrokd")) {
             type = "SERVER";
         }
 
@@ -64,7 +67,7 @@ public class ClientVersionServiceImpl extends ServiceImpl<ClientVersionMapper, C
         }
         clientVersion.setDownloadUrl(downloadURL);
         clientVersion.setChecksum(checksum);
-        clientVersion.setTitle(String.format("joggle-%s-%s",type.toLowerCase(), version));
+        clientVersion.setTitle(String.format("joggle-%s-%s", type.toLowerCase(), version));
         clientVersion.setVersion(version);
         clientVersion.setStatus(true);
         clientVersion.setUpdateTime(new Date());
@@ -72,12 +75,15 @@ public class ClientVersionServiceImpl extends ServiceImpl<ClientVersionMapper, C
     }
 
     @Override
-    public String getMaxVersion() {
-        ClientVersion clientVersion = this.getById(1);
-        if(clientVersion == null){
-            return "v1.3.0";
+    @Cacheable(cacheNames = CacheBlock.CACHE_VERSION_DETAIL, key = "'version'")
+    public NgrokVersionVO getMaxVersion() {
+        NgrokVersionVO versionVO = this.baseMapper.selectMaxVersion();
+        if (versionVO == null) {
+            versionVO = new NgrokVersionVO();
         }
-        return String.format("v%s", clientVersion.getVersion());
+        versionVO.setClientVersion(String.format("v%s", versionVO.getClientVersion()));
+        versionVO.setServerVersion(String.format("v%s", versionVO.getServerVersion()));
+        return versionVO;
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.wuweibi.bullet.domain.vo.CountVO;
 import com.wuweibi.bullet.entity.api.R;
 import com.wuweibi.bullet.oauth2.manager.ResourceManager;
 import com.wuweibi.bullet.service.CountService;
+import com.wuweibi.bullet.system.client.domain.NgrokVersionVO;
 import com.wuweibi.bullet.system.client.service.ClientVersionService;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
@@ -57,12 +58,12 @@ public class HomeController {
 	public R init(){
 		String websiteUrl = joggleProperties.getServerUrl();
 		String website = websiteUrl.substring(websiteUrl.indexOf("://")+3);
-		String version = clientVersionService.getMaxVersion();
-        Map map = new HashMap(6);
+		NgrokVersionVO ngrokVersionVO = clientVersionService.getMaxVersion();
+        Map map = new HashMap(7);
         map.put("website", website);
         map.put("websiteUrl", websiteUrl);
-        map.put("clientVersion", version);
-        map.put("serverVersion", "v1.3.3");
+        map.put("clientVersion", ngrokVersionVO.getClientVersion());
+        map.put("serverVersion", ngrokVersionVO.getServerVersion());
         map.put("dockerClientVersion", "0.0.14");
         map.put("apkClientVersion", "1.3.3");
         map.put("websocketConn", websocketPool.getInfo());
