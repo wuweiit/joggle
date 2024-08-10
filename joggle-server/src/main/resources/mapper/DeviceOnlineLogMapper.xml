@@ -18,9 +18,8 @@
 
 
     <select id="selectWebPage" resultType="com.wuweibi.bullet.device.domain.DeviceOnlineLogVO">
-        select dol.*, d.name deviceName
+        select dol.*
         from device_online_log dol
-        left join t_device d on d.id = dol.device_id
         where dol.user_id = #{params.userId}
         <if test="params.deviceId != null">
             and dol.device_id = #{params.deviceId}

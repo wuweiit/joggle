@@ -192,6 +192,7 @@ public class DeviceOnlineServiceImpl extends ServiceImpl<DeviceOnlineMapper, Dev
         DeviceOnlineLog deviceOnlineLog = new DeviceOnlineLog();
         deviceOnlineLog.setUserId(deviceDetail.getUserId());
         deviceOnlineLog.setDeviceId(deviceDetail.getId());
+        deviceOnlineLog.setDeviceName(deviceDetail.getName());
         deviceOnlineLog.setMacAddr(deviceDetail.getMacAddr());
         deviceOnlineLog.setIntranetIp(deviceDetail.getIntranetIp());
         deviceOnlineLog.setPublicIp(deviceDetail.getPublicIp());

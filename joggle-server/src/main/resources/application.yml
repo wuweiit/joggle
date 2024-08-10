@@ -55,6 +55,8 @@ spring:
   boot:
     admin:
       ui:
+        title: 'Joggle监控'
+        brand: '<img src="assets/img/icon-spring-boot-admin.svg"><span>Joggle监控</span>'
         resourceLocations:
           - classpath*:META-INF/spring-boot-admin-server-ui/
           - classpath:META-INF/spring-boot-admin-server-ui/

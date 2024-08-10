@@ -35,6 +35,9 @@ public class DeviceOnlineLog {
      */
     @ApiModelProperty("设备id")
  	private Long deviceId;
+
+    @ApiModelProperty("设备名称")
+ 	private String deviceName;
     
     /**
      * mac地址
