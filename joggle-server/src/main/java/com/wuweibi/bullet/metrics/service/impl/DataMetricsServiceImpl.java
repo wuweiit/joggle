@@ -323,6 +323,6 @@ public class DataMetricsServiceImpl extends ServiceImpl<DataMetricsMapper, DataM
 
     private String getFlowValue(String keyFormat, String currentDateHour, Long mappingId) {
         String keyHour = String.format(keyFormat, currentDateHour);
-        return ((Integer) Objects.requireNonNull(redisTemplate.opsForHash().get(keyHour, String.valueOf(mappingId)))).toString();
+        return (Objects.requireNonNull(redisTemplate.opsForHash().get(keyHour, String.valueOf(mappingId)))).toString();
     }
 }
